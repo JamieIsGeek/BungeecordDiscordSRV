@@ -1,4 +1,56 @@
 package dev.jamieisgeek.bungeecorddiscordsrv.Managers;
 
+import dev.jamieisgeek.bungeecorddiscordsrv.Models.MessageBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.TextChannel;
+
+import java.util.ArrayList;
+
 public class DiscordManager {
+    private final JDA BOT;
+    private ArrayList<TextChannel> channels;
+    private static DiscordManager instance;
+    public DiscordManager(JDA BOT, ArrayList<TextChannel> channels) {
+        this.BOT = BOT;
+        this.channels = channels;
+    }
+
+    public static DiscordManager getDiscordManager() {
+        return instance;
+    }
+
+    public void sendChannelMessage(String message, String username, String serverName) {
+        if(getServerChannel(serverName) != null) {
+            getServerChannel(serverName).sendMessage(MessageBuilder.MCToDiscord()).queue();
+        }
+    }
+
+    public void sendStatusMessage(boolean online) {
+        channels.forEach(channel -> channel.sendMessage("Network is " + (online ? " online" : " offline")).queue());
+    }
+
+    public void sendConnectionEmbed(String username, String server, boolean isJoin) {
+        EmbedBuilder builder = new EmbedBuilder();
+        builder.setTitle(username + (isJoin ? " Joined" : " Left"));
+
+        if(isJoin) {
+            builder.setColor(0x00ff00);
+        } else {
+            builder.setColor(0xff0000);
+        }
+
+        if(getServerChannel(server) != null) {
+            getServerChannel(server).sendMessage(builder.build()).queue();
+        }
+    }
+
+    public TextChannel getServerChannel(String serverName) {
+        for (TextChannel channel : channels) {
+            if (channel.getName().equalsIgnoreCase(serverName)) {
+                return channel;
+            }
+        }
+        return null;
+    }
 }
