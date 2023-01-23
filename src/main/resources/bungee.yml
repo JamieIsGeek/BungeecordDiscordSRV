@@ -1,0 +1,4 @@
+name: BungeecordDiscordSRV
+version: '${project.version}'
+main: dev.jamieisgeek.bungeecorddiscordsrv.BungeecordDiscordSRV
+description: A plugin to send chats from every server on a bungeecord proxy to discord. Kinda mimics DiscordSRV but for Bungeecord
