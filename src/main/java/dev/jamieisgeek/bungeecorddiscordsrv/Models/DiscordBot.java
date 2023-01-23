@@ -29,11 +29,11 @@ public final class DiscordBot implements EventListener {
     private final ProxyServer proxy;
     private ArrayList<TextChannel> channels = new ArrayList<>();
 
-    public DiscordBot(String token, Configuration config, String categoryID, ProxyServer proxy) throws LoginException, InterruptedException {
+    public DiscordBot(String token, String categoryID, ProxyServer proxy) throws LoginException, InterruptedException {
+        instance = this;
         this.token = token;
         this.categoryID = categoryID;
         this.proxy = proxy;
-        instance = this;
 
         BOT = JDABuilder.createLight(token)
                 .enableIntents(
@@ -53,8 +53,7 @@ public final class DiscordBot implements EventListener {
                 .build().awaitReady();
 
         this.setupChannels();
-        new DiscordManager(BOT, channels);
-        this.discordManager = DiscordManager.getDiscordManager();
+        this.discordManager = new DiscordManager();
     }
     @Override
     public void onEvent(@NotNull GenericEvent event) {
@@ -69,16 +68,21 @@ public final class DiscordBot implements EventListener {
     }
 
     private void setupChannels() {
+        proxy.getLogger().info(proxy.getServers().toString());
         proxy.getServers().forEach((server, serverInfo) -> {
             String serverName = serverInfo.getName();
-            if (!BOT.getCategoryById(categoryID).getTextChannels().contains(BOT.getTextChannelsByName(serverName, true))) {
+            if (!BOT.getCategoryById(categoryID).getTextChannels().contains(BOT.getTextChannelsByName(serverName.toLowerCase(), true))) {
                 BOT.getCategoryById(categoryID).createTextChannel(serverName).queue();
-                channels.add(BOT.getTextChannelsByName(serverName, true).get(0));
+                BOT.getTextChannels().stream().filter(textChannel -> textChannel.getName().equals(serverName)).forEach(channels::add);
+                proxy.getLogger().info("Created channel for " + serverName);
+                return;
             }
 
-            if(!channels.contains(BOT.getTextChannelsByName(serverName, true).get(0))) {
-                channels.add(BOT.getTextChannelsByName(serverName, true).get(0));
-            }
+            BOT.getTextChannels().stream().filter(textChannel -> textChannel.getName().equals(serverName)).forEach(channel -> {
+                if(!channels.contains(channel)) {
+                    channels.add(channel);
+                }
+            });
         });
     }
 
@@ -89,5 +93,13 @@ public final class DiscordBot implements EventListener {
 
     public static DiscordBot getInstance() {
         return instance;
+    }
+
+    public static JDA getBot() {
+        return instance.BOT;
+    }
+
+    public static ArrayList<TextChannel> getChannels() {
+        return instance.channels;
     }
 }

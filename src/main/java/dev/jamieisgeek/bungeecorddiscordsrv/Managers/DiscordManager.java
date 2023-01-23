@@ -1,5 +1,6 @@
 package dev.jamieisgeek.bungeecorddiscordsrv.Managers;
 
+import dev.jamieisgeek.bungeecorddiscordsrv.Models.DiscordBot;
 import dev.jamieisgeek.bungeecorddiscordsrv.Models.MessageBuilder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
@@ -11,9 +12,10 @@ public class DiscordManager {
     private final JDA BOT;
     private ArrayList<TextChannel> channels;
     private static DiscordManager instance;
-    public DiscordManager(JDA BOT, ArrayList<TextChannel> channels) {
-        this.BOT = BOT;
-        this.channels = channels;
+    public DiscordManager() {
+        this.BOT = DiscordBot.getBot();
+        this.channels = DiscordBot.getChannels();
+        instance = this;
     }
 
     public static DiscordManager getDiscordManager() {
@@ -22,7 +24,7 @@ public class DiscordManager {
 
     public void sendChannelMessage(String message, String username, String serverName) {
         if(getServerChannel(serverName) != null) {
-            getServerChannel(serverName).sendMessage(MessageBuilder.MCToDiscord()).queue();
+            getServerChannel(serverName).sendMessage(new MessageBuilder(username, message).MCToDiscord()).queue();
         }
     }
 

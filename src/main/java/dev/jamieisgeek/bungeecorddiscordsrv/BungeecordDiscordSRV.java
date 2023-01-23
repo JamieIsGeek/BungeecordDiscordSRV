@@ -34,7 +34,7 @@ public final class BungeecordDiscordSRV extends Plugin {
         new ProxyManager(this.getProxy());
 
         try {
-            new DiscordBot(items[0], configuration, items[1], getProxy());
+            new DiscordBot(items[0], items[1], getProxy());
         } catch (LoginException | InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -44,6 +44,7 @@ public final class BungeecordDiscordSRV extends Plugin {
         this.getProxy().getPluginManager().registerCommand(this, new ReloadCommand());
 
         getLogger().info("BungeecordDiscordSRV has been enabled!");
+        DiscordManager.getDiscordManager().sendStatusMessage(true);
     }
 
     @Override
