@@ -1,7 +1,6 @@
 package dev.jamieisgeek.bungeecorddiscordsrv.Commands;
 
 import dev.jamieisgeek.bungeecorddiscordsrv.BungeecordDiscordSRV;
-import dev.jamieisgeek.bungeecorddiscordsrv.Managers.DiscordManager;
 import dev.jamieisgeek.bungeecorddiscordsrv.Models.DiscordBot;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;

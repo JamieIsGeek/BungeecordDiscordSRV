@@ -1,6 +1,5 @@
 package dev.jamieisgeek.bungeecorddiscordsrv.Models;
 
-import dev.jamieisgeek.bungeecorddiscordsrv.BungeecordDiscordSRV;
 import dev.jamieisgeek.bungeecorddiscordsrv.Managers.DiscordManager;
 import dev.jamieisgeek.bungeecorddiscordsrv.Managers.ProxyManager;
 import net.dv8tion.jda.api.JDA;
@@ -15,7 +14,6 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.config.Configuration;
 import org.jetbrains.annotations.NotNull;
 
 import javax.security.auth.login.LoginException;

@@ -3,7 +3,6 @@ package dev.jamieisgeek.bungeecorddiscordsrv.Managers;
 import dev.jamieisgeek.bungeecorddiscordsrv.Models.DiscordBot;
 import dev.jamieisgeek.bungeecorddiscordsrv.Models.MessageBuilder;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.ArrayList;
