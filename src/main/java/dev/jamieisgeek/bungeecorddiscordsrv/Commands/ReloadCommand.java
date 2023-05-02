@@ -22,6 +22,6 @@ public class ReloadCommand extends Command {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        sender.sendMessage(new TextComponent(ChatColor.GREEN + "Reloaded config!"));
+        sender.sendMessage(new TextComponent(ChatColor.GREEN + "Reloaded config and Channels!"));
     }
 }
