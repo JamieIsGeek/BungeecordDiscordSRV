@@ -69,7 +69,7 @@ public final class DiscordBot implements EventListener {
         }
     }
 
-    private void setupChannels() {
+    public void setupChannels() {
         List<TextChannel> guildChannels = BOT.getTextChannels();
         // See if there is a channel named the same as the server, if there isn't create one.
         proxy.getServers().forEach((s, serverinfo) -> {
