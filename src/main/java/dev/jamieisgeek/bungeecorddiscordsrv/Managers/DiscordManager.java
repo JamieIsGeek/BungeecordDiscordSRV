@@ -31,8 +31,7 @@ public class DiscordManager {
 
     public void sendConnectionEmbed(String username, String server, boolean isJoin) {
         EmbedBuilder builder = new EmbedBuilder();
-        builder.setTitle(username + (isJoin ? " Joined" : " Left"));
-
+        builder.setTitle(username + (isJoin ? " joined" : " left"));
         if(isJoin) {
             builder.setColor(0x00ff00);
         } else {

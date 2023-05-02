@@ -61,6 +61,7 @@ public final class DiscordBot implements EventListener {
             proxy.getLogger().info("Discord Bot is ready!");
         } else if (event instanceof GuildMessageReceivedEvent) {
             GuildMessageReceivedEvent guildMessageReceivedEvent = (GuildMessageReceivedEvent) event;
+            if(guildMessageReceivedEvent.getAuthor().isBot()) return;
             if(guildMessageReceivedEvent.getChannel().getParent().getId().equals(categoryID)) {
                 ProxyManager.sendChannelMessage(guildMessageReceivedEvent.getMessage().getContentRaw(), guildMessageReceivedEvent.getAuthor().getName(), guildMessageReceivedEvent.getChannel().getName());
             }

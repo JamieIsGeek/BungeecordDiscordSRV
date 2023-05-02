@@ -1,5 +1,6 @@
 package dev.jamieisgeek.bungeecorddiscordsrv.Models;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 
 public class MessageBuilder {
@@ -14,6 +15,6 @@ public class MessageBuilder {
         return "**" + username + "**: " + message;
     }
     public TextComponent DiscordToMC() {
-        return new TextComponent(message);
+        return new TextComponent("[" + ChatColor.AQUA + "Discord" + ChatColor.RESET + "] " + username + ": " + ChatColor.WHITE + message);
     }
 }
