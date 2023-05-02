@@ -5,6 +5,7 @@ import dev.jamieisgeek.bungeecorddiscordsrv.Managers.DiscordManager;
 import dev.jamieisgeek.bungeecorddiscordsrv.Managers.ProxyManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Category;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -19,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.security.auth.login.LoginException;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class DiscordBot implements EventListener {
     private final String token;
@@ -68,21 +70,24 @@ public final class DiscordBot implements EventListener {
     }
 
     private void setupChannels() {
-        proxy.getLogger().info(proxy.getServers().toString());
-        proxy.getServers().forEach((server, serverInfo) -> {
-            String serverName = serverInfo.getName();
-            if (!BOT.getCategoryById(categoryID).getTextChannels().contains(BOT.getTextChannelsByName(serverName.toLowerCase(), true))) {
-                BOT.getCategoryById(categoryID).createTextChannel(serverName).queue();
-                BOT.getTextChannels().stream().filter(textChannel -> textChannel.getName().equals(serverName)).forEach(channels::add);
-                proxy.getLogger().info("Created channel for " + serverName);
-                return;
-            }
-
-            BOT.getTextChannels().stream().filter(textChannel -> textChannel.getName().equals(serverName)).forEach(channel -> {
-                if(!channels.contains(channel)) {
-                    channels.add(channel);
+        List<TextChannel> guildChannels = BOT.getTextChannels();
+        // See if there is a channel named the same as the server, if there isn't create one.
+        proxy.getServers().forEach((s, serverinfo) -> {
+            if(guildChannels.stream().noneMatch(channel -> channel.getName().equalsIgnoreCase(serverinfo.getName()))) {
+                Category category = BOT.getCategoryById(categoryID);
+                if(category == null) {
+                    proxy.getLogger().warning("Category ID is invalid, please check your config.yml");
+                    return;
                 }
-            });
+
+                category.createTextChannel(serverinfo.getName()).queue(textChannel -> {
+                    channels.add(textChannel);
+                    proxy.getLogger().info("Created channel " + textChannel.getName());
+                });
+
+            } else {
+                guildChannels.stream().filter(channel -> channel.getName().equalsIgnoreCase(serverinfo.getName())).forEach(channels::add);
+            }
         });
     }
 
@@ -93,10 +98,6 @@ public final class DiscordBot implements EventListener {
 
     public static DiscordBot getInstance() {
         return instance;
-    }
-
-    public static JDA getBot() {
-        return instance.BOT;
     }
 
     public static ArrayList<TextChannel> getChannels() {

@@ -10,7 +10,7 @@ public class ProxyManager {
     }
     public static void sendChannelMessage(String message, String username, String serverName) {
         if(proxy.getServers().containsKey(serverName)) {
-            proxy.getServers().get(serverName).getPlayers().forEach(player -> player.sendMessage(new MessageBuilder(username, message).MCToDiscord()));
+            proxy.getServers().get(serverName).getPlayers().forEach(player -> player.sendMessage(new MessageBuilder(username, message).DiscordToMC()));
         }
     }
 }

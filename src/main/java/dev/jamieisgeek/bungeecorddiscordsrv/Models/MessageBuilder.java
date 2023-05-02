@@ -1,5 +1,7 @@
 package dev.jamieisgeek.bungeecorddiscordsrv.Models;
 
+import net.md_5.bungee.api.chat.TextComponent;
+
 public class MessageBuilder {
     private static String message;
     private static String username;
@@ -8,11 +10,10 @@ public class MessageBuilder {
         MessageBuilder.message = message;
     }
 
-    public static String MCToDiscord() {
+    public String MCToDiscord() {
         return "**" + username + "**: " + message;
     }
-
-    public static String DiscordToMC() {
-        return message;
+    public TextComponent DiscordToMC() {
+        return new TextComponent(message);
     }
 }

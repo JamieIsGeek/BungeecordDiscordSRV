@@ -9,11 +9,9 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import java.util.ArrayList;
 
 public class DiscordManager {
-    private final JDA BOT;
     private ArrayList<TextChannel> channels;
     private static DiscordManager instance;
     public DiscordManager() {
-        this.BOT = DiscordBot.getBot();
         this.channels = DiscordBot.getChannels();
         instance = this;
     }
@@ -29,7 +27,7 @@ public class DiscordManager {
     }
 
     public void sendStatusMessage(boolean online) {
-        channels.forEach(channel -> channel.sendMessage("Network is " + (online ? " online" : " offline")).queue());
+        channels.forEach(channel -> channel.sendMessage("Network is " + (online ? "online" : "offline")).queue());
     }
 
     public void sendConnectionEmbed(String username, String server, boolean isJoin) {
@@ -43,7 +41,7 @@ public class DiscordManager {
         }
 
         if(getServerChannel(server) != null) {
-            getServerChannel(server).sendMessage(builder.build()).queue();
+            getServerChannel(server).sendMessageEmbeds(builder.build()).queue();
         }
     }
 
