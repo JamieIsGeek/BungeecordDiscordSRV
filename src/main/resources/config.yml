@@ -1,2 +1,2 @@
 token: 12oihirehgier # Your bot token
-category: 1234567890 # The category ID where the channels will be created
+category: "1234567890" # The category ID where the channels will be created
